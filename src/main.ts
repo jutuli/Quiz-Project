@@ -6,6 +6,12 @@ const quizContainer = document.querySelector("#content");
 // Style Parent Element
 if (quizContainer) quizContainer.className = "flex flex-col items-center gap-6";
 
+// Initialize Correct Answer Counting Variable
+let correctAnswerCount = 0;
+
+// Initialize Variable for Total Amount of Questions answered
+let answeredQuestionsCount = 0;
+
 mediumQuestions.forEach((quizItem: QuizItem) => {
   if (!quizContainer) return;
   // Create Elements for each Question
@@ -33,6 +39,8 @@ mediumQuestions.forEach((quizItem: QuizItem) => {
     quizAnswerContainer.appendChild(quizAnswerButton);
     // Event Listener to Change Button Styling based on correct/wrong answer
     quizAnswerButton.addEventListener("click", () => {
+      // increase answered question count
+      answeredQuestionsCount++;
       // disable all Buttons & change their BG-Color
       answerButtons.forEach((button) => {
         button.disabled = true;
@@ -48,8 +56,14 @@ mediumQuestions.forEach((quizItem: QuizItem) => {
       // Add BG-Color of clicked Button based on correct/wrong answer
       if (quizAnswerButton.textContent === quizItem.answer) {
         quizAnswerButton.classList.add("bg-green-700");
+        // Add point for correct answer
+        correctAnswerCount++;
       } else {
         quizAnswerButton.classList.add("bg-red-700");
+      }
+      // Check if all questions have been answered
+      if (answeredQuestionsCount === mediumQuestions.length) {
+        displayResult();
       }
     });
     return quizAnswerButton;
@@ -58,3 +72,17 @@ mediumQuestions.forEach((quizItem: QuizItem) => {
   // Append entire quizContainer with the filled questionContainer
   quizContainer.appendChild(quizQuestionContainer);
 });
+
+// Display Result of Quiz
+function displayResult() {
+  // Create Result Container & Paragraph to display result
+  const quizResultContainer = document.createElement("div");
+  const quizResult = document.createElement("p");
+  // Fill quizResult with data
+  quizResult.textContent = `You got ${correctAnswerCount} out of ${answeredQuestionsCount} questions correct.`;
+  // Style quizResult
+  quizResult.className = "my-5 text-center text-2xl font-semibold ";
+  // Display quizResult in DOM
+  quizResultContainer.appendChild(quizResult);
+  quizContainer?.appendChild(quizResultContainer);
+}
