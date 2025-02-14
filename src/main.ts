@@ -16,7 +16,7 @@ let correctAnswerCount = 0;
 // Initialize Variable for Total Amount of Questions answered
 let answeredQuestionsCount = 0;
 
-mediumQuestions.forEach((quizItem: QuizItem) => {
+mediumQuestions.forEach((quizItem: QuizItem): void => {
   if (
     !quizItem.answer ||
     !quizItem.choices ||
@@ -26,6 +26,16 @@ mediumQuestions.forEach((quizItem: QuizItem) => {
     console.error("Quiz Item is faulty and cannot be displayed.");
     return;
   }
+  // call createQuizQuestion Function to create quizQuestionElement for each Item
+  const quizQuestionElement = createQuizQuestion(quizItem);
+  // Append entire quizContainer with the quizQuestionElement
+  if (quizQuestionElement) {
+    quizContainer.appendChild(quizQuestionElement);
+  }
+});
+
+// Create QuizQuestion Functionality
+function createQuizQuestion(quizItem: QuizItem): HTMLElement {
   // Create Elements for each Question
   const quizQuestionContainer = document.createElement("section");
   const quizQuestionImage = document.createElement("img");
@@ -82,12 +92,11 @@ mediumQuestions.forEach((quizItem: QuizItem) => {
     return quizAnswerButton;
   });
   quizQuestionContainer.appendChild(quizAnswerContainer);
-  // Append entire quizContainer with the filled questionContainer
-  quizContainer.appendChild(quizQuestionContainer);
-});
+  return quizQuestionContainer;
+}
 
 // Display Result of Quiz
-function displayResult() {
+function displayResult(): void {
   // Create Result Container & Paragraph to display result
   const quizResultContainer = document.createElement("div");
   const quizResult = document.createElement("p");
