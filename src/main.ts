@@ -1,8 +1,12 @@
 import "./style.css";
-import { mediumQuestions, Choices, QuizItem } from "./quizQuestions.ts";
+import { mediumQuestions, QuizItem } from "./quizQuestions.ts";
 
 // Get Parent Element
 const quizContainer = document.querySelector("#content");
+// Throw Error if there is an issue with the quizContainer
+if (!quizContainer) {
+  throw new Error("The quizContainer element does not exist.");
+}
 // Style Parent Element
 if (quizContainer) quizContainer.className = "flex flex-col items-center gap-6";
 
@@ -13,7 +17,15 @@ let correctAnswerCount = 0;
 let answeredQuestionsCount = 0;
 
 mediumQuestions.forEach((quizItem: QuizItem) => {
-  if (!quizContainer) return;
+  if (
+    !quizItem.answer ||
+    !quizItem.choices ||
+    !quizItem.question ||
+    !quizItem.url
+  ) {
+    console.error("Quiz Item is faulty and cannot be displayed.");
+    return;
+  }
   // Create Elements for each Question
   const quizQuestionContainer = document.createElement("section");
   const quizQuestionImage = document.createElement("img");
