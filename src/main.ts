@@ -24,6 +24,7 @@ mediumQuestions.forEach((quizItem: QuizItem) => {
   quizAnswerContainer.className = "flex gap-2 w-full";
   // Fill each Element with Data, Style it & Append Question Container
   quizQuestionImage.src = `${quizItem.url}`;
+  quizQuestionImage.alt = "Quiz Question Image";
   quizQuestionContainer.appendChild(quizQuestionImage);
   quizQuestionImage.className = "mb-2";
   quizQuestion.textContent = `${quizItem.question}`;
