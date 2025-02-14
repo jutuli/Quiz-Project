@@ -27,7 +27,7 @@ mediumQuestions.forEach((quizItem: QuizItem) => {
   quizQuestionContainer.appendChild(quizQuestionImage);
   quizQuestionImage.className = "mb-2";
   quizQuestion.textContent = `${quizItem.question}`;
-  quizQuestion.className = "font-semibold text-lg";
+  quizQuestion.className = "font-semibold text-xl";
   quizQuestionContainer.appendChild(quizQuestion);
   // Create Array of Answer Buttons to be able to work with all Buttons at once
   const answerButtons = quizItem.choices.map((choice) => {
@@ -35,7 +35,7 @@ mediumQuestions.forEach((quizItem: QuizItem) => {
     const quizAnswerButton = document.createElement("button");
     quizAnswerButton.textContent = `${choice}`;
     quizAnswerButton.className =
-      "m-2 cursor-pointer rounded-lg bg-gray-500 py-2 font-semibold text-white hover:bg-gray-600 w-full";
+      "m-2 cursor-pointer rounded-lg bg-gray-500 py-2 text-lg font-semibold text-white hover:bg-gray-600 w-full";
     quizAnswerContainer.appendChild(quizAnswerButton);
     // Event Listener to Change Button Styling based on correct/wrong answer
     quizAnswerButton.addEventListener("click", () => {
