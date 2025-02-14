@@ -35,11 +35,11 @@ mediumQuestions.forEach((quizItem: QuizItem) => {
   quizQuestionContainer.className = "flex flex-col items-center gap-2";
   quizAnswerContainer.className = "flex gap-2 w-full";
   // Fill each Element with Data, Style it & Append Question Container
-  quizQuestionImage.src = `${quizItem.url}`;
+  quizQuestionImage.src = quizItem.url;
   quizQuestionImage.alt = "Quiz Question Image";
   quizQuestionContainer.appendChild(quizQuestionImage);
   quizQuestionImage.className = "mb-2";
-  quizQuestion.textContent = `${quizItem.question}`;
+  quizQuestion.textContent = quizItem.question;
   quizQuestion.className = "font-semibold text-xl";
   quizQuestionContainer.appendChild(quizQuestion);
   // Create Array of Answer Buttons to be able to work with all Buttons at once
