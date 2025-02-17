@@ -3,10 +3,7 @@ import { mediumQuestions, QuizItem } from "./quizQuestions.ts";
 
 // Get Parent Element
 const quizContainer = document.querySelector("#content");
-// Throw Error if there is an issue with the quizContainer
-if (!quizContainer) {
-  throw new Error("The quizContainer element does not exist.");
-}
+
 // Style Parent Element
 if (quizContainer) quizContainer.className = "flex flex-col items-center gap-6";
 
@@ -16,24 +13,33 @@ let correctAnswerCount = 0;
 // Initialize Variable for Total Amount of Questions answered
 let answeredQuestionsCount = 0;
 
-mediumQuestions.forEach((quizItem: QuizItem): void => {
-  if (
-    quizItem.answer === undefined ||
-    quizItem.answer === null ||
-    !quizItem.choices ||
-    !quizItem.question ||
-    !quizItem.url
-  ) {
-    console.error("Quiz Item is faulty and cannot be displayed.");
-    return;
+// Initial Rendering of the Quiz
+renderQuiz();
+
+function renderQuiz() {
+  // Throw Error if there is an issue with the quizContainer
+  if (!quizContainer) {
+    throw new Error("The quizContainer element does not exist.");
   }
-  // call createQuizQuestion Function to create quizQuestionElement for each Item
-  const quizQuestionElement = createQuizQuestion(quizItem);
-  // Append entire quizContainer with the quizQuestionElement
-  if (quizQuestionElement) {
-    quizContainer.appendChild(quizQuestionElement);
-  }
-});
+  mediumQuestions.forEach((quizItem: QuizItem): void => {
+    if (
+      quizItem.answer === undefined ||
+      quizItem.answer === null ||
+      !quizItem.choices ||
+      !quizItem.question ||
+      !quizItem.url
+    ) {
+      console.error("Quiz Item is faulty and cannot be displayed.");
+      return;
+    }
+    // call createQuizQuestion Function to create quizQuestionElement for each Item
+    const quizQuestionElement = createQuizQuestion(quizItem);
+    // Append entire quizContainer with the quizQuestionElement
+    if (quizQuestionElement) {
+      quizContainer?.appendChild(quizQuestionElement);
+    }
+  });
+}
 
 // Create QuizQuestion Functionality
 function createQuizQuestion(quizItem: QuizItem): HTMLElement {
@@ -88,6 +94,7 @@ function createQuizQuestion(quizItem: QuizItem): HTMLElement {
       // Check if all questions have been answered
       if (answeredQuestionsCount === mediumQuestions.length) {
         displayResult();
+        displayRetry();
       }
     });
     return quizAnswerButton;
@@ -104,8 +111,27 @@ function displayResult(): void {
   // Fill quizResult with data
   quizResult.textContent = `You got ${correctAnswerCount} out of ${answeredQuestionsCount} questions correct.`;
   // Style quizResult
-  quizResult.className = "my-5 text-center text-2xl font-semibold ";
+  quizResult.className = "mt-5 mb-2 text-center text-2xl font-semibold ";
   // Display quizResult in DOM
   quizResultContainer.appendChild(quizResult);
   quizContainer?.appendChild(quizResultContainer);
+}
+
+// Display Retry Button
+function displayRetry(): void {
+  if (!quizContainer) return;
+  const retryButton = document.createElement("button");
+  retryButton.textContent = "↻ Retry Quiz";
+  retryButton.className =
+    "m-2 cursor-pointer rounded-lg bg-gray-500 py-2 px-4 mb-5 text-lg font-semibold text-white hover:bg-gray-600";
+  quizContainer.appendChild(retryButton);
+  // Reload quiz on click of Retry Button
+  retryButton.addEventListener("click", () => {
+    quizContainer.innerHTML = "";
+    correctAnswerCount = 0;
+    answeredQuestionsCount = 0;
+    renderQuiz();
+    // Scroll to top of the page smoothly
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 }
