@@ -18,7 +18,8 @@ let answeredQuestionsCount = 0;
 
 mediumQuestions.forEach((quizItem: QuizItem): void => {
   if (
-    !quizItem.answer ||
+    quizItem.answer === undefined ||
+    quizItem.answer === null ||
     !quizItem.choices ||
     !quizItem.question ||
     !quizItem.url
